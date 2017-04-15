@@ -1,0 +1,23 @@
+%h2 Период с #{@start_date} до #{@finish_date}
+.br
+%h3
+  Работник
+  %strong.workers#period #{@waiter.name}
+%h4
+  Ранк
+  %strong.workers#period #{@waiter.rank}
+%h4
+  Часов отработано
+  %strong.workers#period #{@hours_count}
+%h4
+  Смен как "Главный официант"
+  %strong.workers#period #{@main}
+%h4
+  Смен как "Координатор"
+  %strong.workers#period #{@coordinator}
+%h4
+  Смен как "Резерв"
+  %strong.workers#period #{@reserve}
+%h3
+  К начислению за период
+  %strong.workers#period #{@waste}

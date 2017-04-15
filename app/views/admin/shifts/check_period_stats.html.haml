@@ -1,0 +1,14 @@
+= form_for :dump, url: {action: "period_stats"}, html: { multipart: true } do |f|
+  %table
+    %tr
+      %td
+        %label Начало периода    
+        .label#period= f.text_field :start_date, :class => 'datepicker'
+    %tr
+      %td
+        %label Окончание периода
+        .label#period= f.text_field :finish_date, :class => 'datepicker'
+    %tr
+      %td{width: "110"}
+        = submit_tag 'Submit'
+      
