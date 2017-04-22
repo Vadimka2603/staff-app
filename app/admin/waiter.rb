@@ -10,7 +10,7 @@ ActiveAdmin.register Waiter do
     column :name
     column :rank
     column :phone
-    column :estimate_date
+
     actions
   end
 
@@ -19,6 +19,13 @@ ActiveAdmin.register Waiter do
       row :name
       row :rank
       row :phone
+      row :birthday
+      row :passport_number
+      row :passport_seria
+      row :health_book
+      row :health_book_estimate
+      row :manager_id
+      row :gender
       row :estimate_date
     end
 
@@ -34,12 +41,24 @@ ActiveAdmin.register Waiter do
   	@waiter = Waiter.find(params[:id])
   	@start_date = params[:dump][:start_date]
     @finish_date = params[:dump][:finish_date]
-  	shifts = Shift.where(waiter_id: @waiter.id).where("date >= ?", @start_date).where("date <= ?", @finish_date)
+  	shifts = @waiter.shifts.where("date >= ?", @start_date).where("date <= ?", @finish_date)
     @hours_count = shifts.pluck(:length).sum
-    @main = shifts.where(is_main: true).count
-    @coordinator = shifts.where(is_coordinator: true).count
-    @reserve = shifts.where(is_reserve: true).count
-    @waste = shifts.pluck(:selfrate).sum
+    @main = 0
+    shifts.each do |s| 
+      @main += s.payments.where(waiter_id: @waiter.id, is_main: true).count
+    end
+    @coordinator = 0
+    shifts.each do |s|
+      @coordinator += s.payments.where(waiter_id: @waiter.id, is_coordinator: true).count
+    end
+    @reserve = 0
+    shifts.each do |s|
+      @reserve += s.payments.where(waiter_id: @waiter.id, is_reserve: true).count
+    end
+    @waste = 0
+    shifts.each do |s| 
+      @waste += s.payments.pluck(:self_rate).sum
+    end
     render "admin/waiters/period_stats"
   end
 
@@ -47,6 +66,7 @@ ActiveAdmin.register Waiter do
     def permitted_params
       params.permit!
     end
+
   end
 
   form do |f|
@@ -55,7 +75,16 @@ ActiveAdmin.register Waiter do
 	    f.input :name
 	    f.input :rank, as: :select, collection: Waiter::RANKS
 	    f.input :phone
+      f.input :birthday, as: :datepicker
+      f.input :passport_seria
+      f.input :passport_number
+      f.input :health_book
+      f.input :health_book_estimate, as: :datepicker
+      f.input :gender, as: :radio,
+              collection: ['Мужской', 'Женский']
 	    f.input :estimate_date, as: :datepicker
+      f.input :manager, as: :select, collection: AdminUser.where(ability: false).map{|manager| ["#{manager.name}", manager.id]},
+                         include_blank: false
 	end
 	f.actions
   end

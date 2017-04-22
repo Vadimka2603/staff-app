@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170415135340) do
+ActiveRecord::Schema.define(version: 20170422144059) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,31 +30,51 @@ ActiveRecord::Schema.define(version: 20170415135340) do
   end
 
   create_table "admin_users", force: :cascade do |t|
-    t.string   "email",                  default: "",   null: false
-    t.string   "encrypted_password",     default: "",   null: false
+    t.string   "email",                  default: "",    null: false
+    t.string   "encrypted_password",     default: "",    null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,    null: false
+    t.integer  "sign_in_count",          default: 0,     null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.inet     "current_sign_in_ip"
     t.inet     "last_sign_in_ip"
-    t.datetime "created_at",                            null: false
-    t.datetime "updated_at",                            null: false
-    t.boolean  "ability",                default: true
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.string   "name"
+    t.string   "phone"
+    t.boolean  "ability",                default: false
     t.index ["email"], name: "index_admin_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
+  end
+
+  create_table "managers", force: :cascade do |t|
+    t.string   "name"
+    t.string   "email"
+    t.string   "phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "payments", force: :cascade do |t|
+    t.integer  "waiter_id"
+    t.integer  "shift_id"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.float    "client_rate"
+    t.float    "self_rate"
+    t.boolean  "is_main",        default: false
+    t.boolean  "is_coordinator", default: false
+    t.boolean  "is_reserve",     default: false
+    t.integer  "cost"
   end
 
   create_table "shifts", force: :cascade do |t|
     t.string   "rank"
     t.integer  "waiter_id"
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
-    t.boolean  "is_main",        default: false
-    t.boolean  "is_coordinator", default: false
-    t.boolean  "is_reserve",     default: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.float    "selfrate"
     t.float    "clientrate"
     t.float    "hotelrate"
@@ -62,15 +82,23 @@ ActiveRecord::Schema.define(version: 20170415135340) do
     t.time     "start_time"
     t.time     "finish_time"
     t.float    "length"
+    t.text     "comment"
   end
 
   create_table "waiters", force: :cascade do |t|
     t.string   "name"
     t.string   "rank"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.date     "estimate_date"
     t.string   "phone"
+    t.date     "birthday"
+    t.integer  "passport_number"
+    t.integer  "passport_seria"
+    t.boolean  "health_book",          default: true
+    t.date     "health_book_estimate"
+    t.integer  "manager_id"
+    t.string   "gender"
   end
 
 end

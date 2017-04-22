@@ -1,0 +1,274 @@
+ru:
+  time:
+    formats:
+      default: "%d %B %Y"
+      date: "%d %B %Y"
+      time: "%H:%M"
+      long: "%d %B %Y"
+  date:
+    formats:
+      long: "%d %B %Y"
+      default: "%d %b %Y"
+    abbr_day_names:
+    - Вс
+    - Пн
+    - Вт
+    - Ср
+    - Чт
+    - Пт
+    - Сб
+    month_names: [~, Января, Февраля, Марта, Апреля, Мая, Июня, Июля, Августа, Сентября, Октября, Ноября, Декабря]
+    abbr_month_names: [~, января, февраля, марта, апреля, мая, июня, июля, августа, сентября, октября, ноября, декабря]
+    day_names:
+    - воскресенье
+    - понедельник
+    - вторник
+    - среда
+    - четверг
+    - пятница
+    - суббота
+  formtastic:
+    required: 'обязательно'
+    mark: ' '
+    yes: 'Да'
+    no: 'Нет'
+    create: 'Создать'
+    update: 'Обновить'
+    submit: 'Подтвердить'
+    cancel: 'Отмена'
+
+    reset: 'Сброс'
+    and: 'и'
+  active_admin:
+    attributes:
+      catalog/comment:
+        aasm_state/banned: Запрещен
+        aasm_state/approved: Разрешен
+        aasm_state/moderating: В модерации
+    scopes:
+      all: 'Все'
+      main: 'Оcновные'
+      sub_categories: 'Подкатегории'
+      banned: 'Запрещенные'
+      approved: 'Разрешенные'
+      moderating: 'В модерации'
+      published: 'Разрешенные'
+      qa_active: 'Активные ВО'
+      catalog: 'Специалисты справки'
+      vvm: 'Специалисты ВВМ'
+      categories: 'Категории'
+      children: 'Слова'
+      checked: 'Проверенные'
+      blocked: 'Запрещенные'
+      union_organizations: 'Объединения организаций'
+      affilated_organizations: 'Дочерние организации'
+      independent_organizations: 'Самостоятельные организации'
+
+    dashboard: "Панель управления"
+    dashboard_welcome:
+      welcome: "Добро пожаловать в Active Admin. Это стандартная страница управления сайтом."
+      call_to_action: "Чтобы добавить сюда что-нибудь загляните в 'app/admin/dashboard.rb'"
+    view: "Открыть"
+    edit: "Изменить"
+    create: 'Создать'
+    delete: "Удалить"
+    delete_confirmation: "Вы уверены, что хотите удалить это?"
+    new_model: "Создать %{model}"
+    edit_model: "Изменить %{model}"
+    delete_model: "Удалить %{model}"
+    details: "%{model} подробнее"
+    cancel: "Отмена"
+    empty: "Пусто"
+    previous: "Пред."
+    next: "След."
+    download: "Загрузка:"
+    has_many_new: "Добавить %{model}"
+    has_many_delete: "Удалить"
+    has_many_remove: "Убрать"
+    filters:
+      buttons:
+        filter: "Фильтровать"
+        clear: "Очистить"
+      predicates:
+        contains: "Содержит"
+        equals: "Равно"
+        starts_with: "Начинается с"
+        ends_with: "Заканчивается"
+        greater_than: "больше"
+        less_than: "меньше"
+        yes: 'Да'
+        no: 'Нет'
+    search_status:
+      headline: "Область:"
+      current_filters: "Текущий фильтр:"
+      no_current_filters: "Ни один"
+    status_tag:
+      "yes": "Да"
+      "no": "Нет"
+    main_content: "Создайте %{model}#main_content для отображения содержимого."
+    logout: "Выйти"
+    powered_by: "Powered by %{active_admin} %{version}"
+    sidebars:
+      filters: "Фильтры"
+      search_status: "Статус поиска"
+    pagination:
+      empty: "%{model} не найдено"
+      one: "Результат: <b>1</b> %{model}"
+      one_page: "Результат: <b>%{n}</b> %{model}"
+      multiple: "Результат: %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b> из <b>%{total}</b>"
+      multiple_without_total: "Результат: %{model} <b>%{from}&nbsp;-&nbsp;%{to}</b>"
+      entry:
+        one: "запись"
+        few: "записи"
+        many: "записей"
+        other: "записей"
+    any: "Любой"
+    blank_slate:
+      content: "Пока нет %{resource_name}."
+      link: "Создать"
+    dropdown_actions:
+      button_label: "Oперации"
+    batch_actions:
+      button_label: "Групповые операции"
+      default_confirmation: "Вы уверены, что вы хотите это сделать?"
+      delete_confirmation: "Вы уверены, что хотите удалить %{plural_model}?"
+      delete_organizations: 'Удалить'
+      succesfully_destroyed:
+        one: "Успешно удалено: 1 %{model}"
+        few: "Успешно удалено: %{count} %{plural_model}"
+        many: "Успешно удалено: %{count} %{plural_model}"
+        other: "Успешно удалено: %{count} %{plural_model}"
+      selection_toggle_explanation: "(Отметить всё / Снять выделение)"
+      link: "Создать"
+      action_label: "%{title} выбранное"
+      labels:
+        destroy: "Удалить"
+        delete_organizations: "Удалить"
+    comments:
+      resource_type: "Тип ресурса"
+      author_type: "Тип автора"
+      body: "Текст"
+      author: "Автор"
+      title: "Комментарий"
+      add: "Добавить Комментарий"
+      delete: "Удалить Комментарий"
+      delete_confirmation: "Вы уверены, что хотите удалить этот комментарий?"
+      resource: "Ресурс"
+      no_comments_yet: "Пока нет комментариев."
+      author_missing: "Аноним"
+      title_content: "Комментарии (%{count})"
+    devise:
+      username:
+        title: "Имя пользователя"
+      email:
+        title: "Эл. почта"
+      subdomain:
+        title: "Поддомен"
+      password:
+        title: "Пароль"
+      sign_up:
+        title: "Зарегистрироваться"
+        submit: "Зарегистрироваться"
+      login:
+        title: "Войти"
+        remember_me: "Запомнить меня"
+        submit: "Войти"
+      reset_password:
+        title: "Забыли пароль?"
+        submit: "Сбросить пароль"
+      change_password:
+        title: "Изменение пароля"
+        submit: "Изменение пароля"
+      unlock:
+        title: "Повторно отправить инструкции по разблокировке"
+        submit: "Повторно отправить инструкции по разблокировке"
+      resend_confirmation_instructions:
+        title: "Выслать повторно письмо с активацией"
+        submit: "Выслать повторно письмо с активацией"
+      links:
+        sign_up: "Зарегистрироваться"
+        sign_in: "Войти"
+        forgot_your_password: "Забыли пароль?"
+        sign_in_with_omniauth_provider: "Войти с помощью %{provider}"
+        resend_unlock_instructions: "Повторная отправка инструкций разблокировки"
+        resend_confirmation_instructions: "Повторная отправка инструкций подтверждения"
+    unsupported_browser:
+      headline: "Пожалуйста, обратите внимание, что ActiveAdmin больше не поддерживает Internet Explorer 8 версии и старее"
+      recommendation: "Мы рекомендуем обновить версию вашего браузера (<a href=\"http://windows.microsoft.com/ie\">Internet Explorer</a>, <a href=\"https://chrome.google.com/\">Google Chrome</a>, или <a href=\"https://mozilla.org/firefox/\">Firefox</a>)."
+      turn_off_compatibility_view: "Если вы используете IE 9 или новее, убедитесь, что <a href=\"http://windows.microsoft.com/en-US/windows7/webpages-look-incorrect-in-Internet-Explorer\">вы выключили опцию \"Просмотр в режиме совместимости\"</a>."
+    access_denied:
+      message: "Вы не авторизованы для выполнения данного действия."
+    index_list:
+      table: "Таблица"
+      block: "Список"
+      grid: "Сетка"
+      blog: "Блог"
+    errors:
+      messages:
+        blank: "Данное поле не может быть пустым"
+        extension_white_list_error: "Вы не можете загружать %{extension} файлы. Доступные типы: %{allowed_types}"
+        taken: 'Уже имеется'
+  activerecord:
+    models:
+      admin_user:
+        few: 'Менеджеров'
+        many: 'Менеджеры'
+        one: 'Менеджерa'
+        other: 'Менеджеры'
+      waiter:
+        few: 'Официантов'
+        many: 'Официанты'
+        one: 'Официанта'
+        other: 'Официанты'
+      shift: 
+        few: 'Смена'
+        many: 'Смены'
+        one: 'Сменy'
+        other: 'Смены'
+      payment: 
+        few: 'Официантов'
+        many: 'Официанты'
+        one: 'Официанта'
+        other: 'Официанты'
+    attributes:
+      admin_user:
+        email: 'Почта'
+        password: 'Пароль'
+        password_confirmation: 'Подтверждение пароля'
+        name: 'Имя'
+        phone: 'Телефон'
+      waiter:
+        name: 'ФИО'
+        rank: 'Ранг'
+        phone: 'Номер телефона'
+        birthday: 'Дата рождения'
+        passport_number: 'Номер паспорта'
+        passport_seria: 'Cерия паспорта'
+        health_book: 'Наличие санитарной книжки'
+        health_book_estimate: 'Срок годности санитарной книжки'
+        manager: 'Менеджер'
+        manager_id: 'Менеджер'
+        gender: 'Пол'
+        estimate_date: 'Дата последней выплаты заработной платы'
+      shift:
+        date: 'Дата'
+        start_time: 'Начало'
+        finish_time: 'Конец'
+        rank: 'Тип'
+        length: 'Длина в часах'
+        comment: 'Комментарии'
+      payment:
+        is_main: 'Главный'
+        is_coordinator: 'Координатор'
+        is_reserve: 'Резервный'
+        self_rate: 'Оплата официанту'
+        client_rate: 'Оплата клиента'
+        waiter_id: 'Имя'
+        waiter: 'Имя'
+
+  errors:
+    messages:
+      record_invalid: 'Нужные поля не заполнены'
+      extension_white_list_error: 'Некорректный формат файла'
+
+  

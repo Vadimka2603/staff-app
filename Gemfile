@@ -58,3 +58,5 @@ gem 'active_admin_datetimepicker'
 gem 'time_difference', '~> 0.5.0'
 gem 'haml'
 gem 'bootstrap-datepicker-rails'
+gem 'axlsx', '~> 2.0'
+gem "axlsx_rails"

@@ -1,0 +1,20 @@
+wb = xlsx_package.workbook
+header_style = wb.styles.add_style   bg_color: "D8D8D8",
+                                     b: true,
+                                     border: { style: :thin, color: "00" },
+                                     alignment: { horizontal: :center,
+                                                   vertical: :center,
+                                                   wrap_text: false}
+
+row_style = wb.styles.add_style    bg_color: "FFFFFF",
+                                   border: { style: :thin, color: "00" },
+                                   alignment: { horizontal: :center,
+                                   vertical: :center ,
+                                   wrap_text: false}
+wb.add_worksheet(name: "Payments") do |sheet|
+    sheet.add_row ["Официант", "Номер телефона", "Паспортные данные"], style: header_style, height: 30
+    @shift.waiters.each do |waiter|
+    	sheet.add_row [waiter.name, waiter.phone, "Паспорт номер: #{waiter.passport_number}  #{waiter.passport_seria}"], style: row_style, 
+  height: 30
+    end
+end
