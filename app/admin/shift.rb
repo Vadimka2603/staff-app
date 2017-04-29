@@ -1,5 +1,5 @@
 ActiveAdmin.register Shift do
-config.batch_actions = false
+
   filter :date
 
   actions :all
@@ -7,6 +7,7 @@ config.batch_actions = false
   
 
   index do
+    selectable_column
     column :date
     column :start_time do |shift|
     	shift.start_time.strftime('%H:%M')
@@ -122,6 +123,11 @@ config.batch_actions = false
   collection_action :day_stats, method: :post do
     @shifts = Shift.where(date: params[:dump][:date])
     render xlsx: 'admin/shifts/day_stats.xlsx.axlsx'
+  end
+
+  batch_action 'Вывести список сотрудников' do |ids|
+    @shifts = Shift.find(ids)
+    render xlsx: 'admin/shifts/waiters.xlsx.axlsx'
   end
 
   member_action :download_xlsx do
