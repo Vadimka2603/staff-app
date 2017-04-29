@@ -56,6 +56,12 @@ class Payment < ApplicationRecord
 	  	update_column(:cost, 200)
 	  end
 
+	  when 'Официант второй категории'
+	  	update_column(:self_rate, 130*shift.hours_count)
+	  	update_column(:client_rate, 200*shift.hours_count)
+	  	update_column(:cost, 200)
+	  end
+
 	  if is_reserve?
 	  	update_column(:self_rate, ((self_rate/shift.hours_count+20)*shift.hours_count))
 	  end

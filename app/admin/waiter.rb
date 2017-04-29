@@ -22,6 +22,7 @@ ActiveAdmin.register Waiter do
       row :birthday
       row :passport_number
       row :passport_seria
+      row :address
       row :health_book
       row :health_book_estimate
       row :manager_id
@@ -98,6 +99,7 @@ ActiveAdmin.register Waiter do
       f.input :birthday, as: :datepicker
       f.input :passport_seria, wrapper_html: { class: 'vvm_edr' }, label: 'Паспортные данные'
       f.input :passport_number, wrapper_html: { class: 'vvm_edr' }, label: false
+      f.input :address
       f.input :health_book
       f.input :health_book_estimate, as: :datepicker
       f.input :gender, as: :radio,
