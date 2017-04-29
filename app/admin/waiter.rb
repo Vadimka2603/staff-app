@@ -10,7 +10,7 @@ ActiveAdmin.register Waiter do
     column :name
     column :phone
     column :rank
-    
+
     actions dropdown: true
   end
 
@@ -43,6 +43,7 @@ ActiveAdmin.register Waiter do
   member_action :upload_payent do
     waiter = Waiter.find(params[:id])
     waiter.update(estimate_date: Date.today)
+    redirect_to admin_waiter_path(waiter)
   end
 
   batch_action 'Расчитать сегодня' do |ids|

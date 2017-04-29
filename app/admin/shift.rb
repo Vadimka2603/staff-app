@@ -161,12 +161,10 @@ ActiveAdmin.register Shift do
       @profit += s.payments.pluck(:client_rate).sum
     end
     @difference = @profit - @waste
-    @hours = Shift.where("date >= ?", @start_date).where("date <= ?", @finish_date).pluck(:length).sum
-    @waiters_count = 0
+    @length = 0
     Shift.where("date >= ?", @start_date).where("date <= ?", @finish_date).each do |s|
-      @waiters_count += s.payments.count
+      @length += s.payments.count*s.length
     end
-    @length = @hours*@waiters_count
     render "admin/shifts/period_stats"
   end
 
