@@ -31,7 +31,7 @@ ActiveAdmin.register Shift do
         end
       end
     end
-    actions
+    actions dropdown: true
     column "" do |shift|
       link_to('Дублировать на сегодня',  duplicate_admin_shift_path(shift))
     end

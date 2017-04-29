@@ -11,7 +11,7 @@ ActiveAdmin.register Waiter do
     column :rank
     column :phone
 
-    actions
+    actions dropdown: true
   end
 
   show do |waiter|

@@ -7,7 +7,7 @@ ActiveAdmin.register AdminUser do
     column :email
     column :name
     column :phone
-    actions
+    actions dropdown: true
   end
 
   show do |waiter|
