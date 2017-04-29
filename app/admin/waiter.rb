@@ -1,5 +1,5 @@
 ActiveAdmin.register Waiter do
-  config.filters = false
+  filter :manager
 
   actions :all
 
@@ -8,9 +8,9 @@ ActiveAdmin.register Waiter do
   index do
     selectable_column
     column :name
-    column :rank
     column :phone
-
+    column :rank
+    
     actions dropdown: true
   end
 

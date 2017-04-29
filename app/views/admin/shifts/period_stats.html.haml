@@ -6,6 +6,15 @@
 %h3
   Получено от клиентов
   %strong.workers#period #{@profit}
+%h3
+  Часов
+  %strong.workers#period #{@length}
+%h3
+  Траты в среднем в час
+  %strong.workers#period #{(@waste/@length.to_i).round(2)}
+%h3
+  Получено в среднем в час
+  %strong.workers#period #{(@profit/@length.to_i).round(2)}
 .br
 .br
 %h3

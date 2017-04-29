@@ -11,20 +11,34 @@ row_style = wb.styles.add_style    bg_color: "FFFFFF",
                                    alignment: { horizontal: :center,
                                    vertical: :center ,
                                    wrap_text: false}
+left_row_style = wb.styles.add_style    bg_color: "FFFFFF",
+                                   height: 30,
+                                   border: { style: :thin, color: "00" },
+                                   alignment: { horizontal: :left,
+                                   vertical: :center ,
+                                   wrap_text: false}
+right_row_style = wb.styles.add_style    bg_color: "FFFFFF",
+                                   height: 30,
+                                   border: { style: :thin, color: "00" },
+                                   alignment: { horizontal: :right,
+                                   vertical: :center ,
+                                   wrap_text: false}
 cost = Array.new
 @shifts.each do |shift|
 	cost << shift.payments.pluck(:client_rate).sum
 end
 wb.add_worksheet(name: "Payments") do |sheet|
-	i=1
-    sheet.add_row ["#{@shifts.first.try(:date)}", " ", "Официант", " ", " ", "часов", "Цена", "Сумма" ], style: header_style, height: 30
+	
+    sheet.add_row ["#{@shifts.first.try(:date)}", " ", "официант", " ", " ", "часов", "цена", "сумма" ], style: header_style, height: 30
     @shifts.reorder(:id).each do |shift|
+      i=1
     	shift.payments.each do |payment|
         	sheet.add_row [" ", i, payment.waiter.name, shift.start_time.strftime('%H:%M'),
-        	shift.finish_time.strftime('%H:%M'), shift.length, payment.cost, payment.client_rate], style: row_style, height: 30
+        	shift.finish_time.strftime('%H:%M'), shift.length, payment.cost, payment.client_rate], style: [row_style, right_row_style,
+          left_row_style, row_style, row_style, row_style, row_style, row_style]
         	i+=1
         end 
-    sheet.add_row [" ", " ", "Официант", " ", " ", "часов", "Цена", "Сумма" ], style: header_style, height: 30 if @shifts.reorder(:id).index(shift) != @shifts.reorder(:id).count-1
+    sheet.add_row [" ", " ", "официант", " ", " ", "часов", "цена", "сумма" ], style: header_style, height: 30 if @shifts.reorder(:id).index(shift) != @shifts.reorder(:id).count-1
     end
     sheet.add_row [" ", " ", " ", " ", " ", " ", "итого", cost.sum ], style: header_style, height: 30 
 end

@@ -24,10 +24,12 @@ ActiveAdmin.register Shift do
     # column 'Официанты' do |shift|
     #   shift.waiters.map{|w| w.name}.join('/n ')
     # end
-    column '' do |shift|
-      table_for shift.payments, header: false do
-        column 'Официанты' do |payment|
-          payment.waiter.name
+    column '', class: "name" do |shift|
+      div class: "name" do 
+        table_for shift.payments, header: false do
+          column 'Официанты' do |payment|
+            payment.waiter.name
+          end
         end
       end
     end
@@ -35,11 +37,8 @@ ActiveAdmin.register Shift do
     column "" do |shift|
       link_to('Дублировать на сегодня',  duplicate_admin_shift_path(shift))
     end
-    column "" do |shift|
-      link_to('Скачать информацию по сотрудникам',  download_xlsx_admin_shift_path(shift))
-    end
-
   end
+
 
   show do |shift|
     attributes_table_for shift do
@@ -65,7 +64,7 @@ ActiveAdmin.register Shift do
       end
     end if shift.payments.where(is_coordinator: true).any?
 
-    panel 'Главные официанты' do
+    panel 'Старшие официанты' do
       table_for shift.payments.where(is_main: true) do
         column 'Официант' do |payment|
           payment.waiter.name
@@ -104,7 +103,7 @@ ActiveAdmin.register Shift do
 
   action_item only: :index do
     if current_admin_user.ability == true
-      link_to 'Статистика за день', action: 'check_day_stats'
+      link_to 'Отчет за день', action: 'check_day_stats'
     else
     end
   end
@@ -162,6 +161,8 @@ ActiveAdmin.register Shift do
       @profit += s.payments.pluck(:client_rate).sum
     end
     @difference = @profit - @waste
+    @length = Shift.where("date >= ?", @start_date).where("date <= ?", @finish_date).pluck(:length).sum
+    puts @length
     render "admin/shifts/period_stats"
   end
 

@@ -7,18 +7,33 @@ header_style = wb.styles.add_style   bg_color: "D8D8D8",
                                                    wrap_text: false}
 
 row_style = wb.styles.add_style    bg_color: "FFFFFF",
+                                   height: 30,
                                    border: { style: :thin, color: "00" },
                                    alignment: { horizontal: :center,
                                    vertical: :center ,
                                    wrap_text: false}
+left_row_style = wb.styles.add_style    bg_color: "FFFFFF",
+                                   height: 30,
+                                   border: { style: :thin, color: "00" },
+                                   alignment: { horizontal: :left,
+                                   vertical: :center ,
+                                   wrap_text: false}
+right_row_style = wb.styles.add_style    bg_color: "FFFFFF",
+                                   height: 30,
+                                   border: { style: :thin, color: "00" },
+                                   alignment: { horizontal: :right,
+                                   vertical: :center ,
+                                   wrap_text: false}
 wb.add_worksheet(name: "Payments") do |sheet|
-  sheet.add_row ["", "Официант", "Номер телефона", "Паспортные данные"], style: header_style, height: 30
+  sheet.add_row ["", "", "номер", "официант", "номер телефона", "паспортные данные"], style: header_style, height: 30
   @shifts.each do |shift|
-    sheet.add_row ["#{shift.start_time.strftime('%H:%M')}-#{shift.finish_time.strftime('%H:%M')} #{shift.date}", " "], style: row_style, 
-      height: 30
+    sheet.add_row ["#{shift.start_time.strftime('%H:%M')}-#{shift.finish_time.strftime('%H:%M')} #{shift.date}", "#{shift.rank}", " "], style: row_style 
+      
+    i=1
     shift.waiters.each do |waiter|
-    	sheet.add_row ["", waiter.name, waiter.phone, "Паспорт номер: #{waiter.passport_number}  #{waiter.passport_seria}"], style: row_style, 
-      height: 30
+    	sheet.add_row ["", "", "#{i}", waiter.name, waiter.phone, "Паспорт номер: #{waiter.passport_number}  #{waiter.passport_seria}"], style: 
+      [row_style, row_style, right_row_style, left_row_style, row_style, row_style, row_style]
+      i+=1
     end
 
     
