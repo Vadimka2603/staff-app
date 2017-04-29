@@ -1,0 +1,30 @@
+// SASS variable overrides must be declared before loading up Active Admin's styles.
+//
+// To view the variables that Active Admin provides, take a look at
+// `app/assets/stylesheets/active_admin/mixins/_variables.scss` in the
+// Active Admin source.
+//
+// For example, to change the sidebar width:
+// $sidebar-width: 242px;
+
+// Active Admin's got SASS!
+@import "active_admin/mixins";
+@import "active_admin/base";
+@import "wigu/active_admin_theme";
+
+
+#period.workers { color: red !important; }
+#period.label {margin-left: 0px; }
+#peroid_table {border: 2px solid black;
+			   border-radius: 4px; }
+#peroid_table_td {border-bottom: 1px solid #ddd;}
+#period_table_header {font-size: medium;
+					  background: blanchedalmond;}
+
+form.formtastic fieldset ol li.vvm_edr {display:inline; margin-right: 2em; margin-left: -14px; margin-top:10px;}
+form.formtastic fieldset ol li.vvm_edr label {padding-left: 10px;}
+form.formtastic fieldset ol li.vvm_edr input {width: auto;}
+form.formtastic fieldset ol li.vvm_edr.string .inline-errors {
+  margin: 0.3em 0 0 0;
+  display: inline-block;
+}
