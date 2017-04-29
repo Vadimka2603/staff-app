@@ -251,6 +251,7 @@ ru:
         gender: 'Пол'
         estimate_date: 'Дата последней выплаты заработной платы'
         address: 'Адресс'
+        second_phone: 'Второй телефон'
       shift:
         date: 'Дата'
         start_time: 'Начало'
