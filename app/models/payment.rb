@@ -50,14 +50,14 @@ class Payment < ApplicationRecord
 	  		update_column(:client_rate, 200*shift.hours_count)
 	  		update_column(:cost, 200)
 	  	end
-	  when 'Официант первой категории'
+
+	  when 'Официант вотор категории'
 	  	update_column(:self_rate, 120*shift.hours_count)
 	  	update_column(:client_rate, 200*shift.hours_count)
 	  	update_column(:cost, 200)
-	  end
 
-	  when 'Официант второй категории'
-	  	update_column(:self_rate, 130*shift.hours_count)
+	  when 'Официант первой категории'
+	  	update_column(:self_rate, 120*shift.hours_count)
 	  	update_column(:client_rate, 200*shift.hours_count)
 	  	update_column(:cost, 200)
 	  end
