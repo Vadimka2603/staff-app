@@ -4,6 +4,8 @@ class Payment < ApplicationRecord
 
   after_commit :set_costs, on: [:create, :update]
 
+  scope :normal, -> { where(is_coordinator: false, is_reserve: false, is_main: false) }
+
   def set_costs
   	if is_main || is_coordinator
   		additional_costs

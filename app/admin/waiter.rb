@@ -1,5 +1,4 @@
 ActiveAdmin.register Waiter do
-  config.batch_actions = false
   config.filters = false
 
   actions :all
@@ -7,6 +6,7 @@ ActiveAdmin.register Waiter do
   config.sort_order = 'id_asc'
 
   index do
+    selectable_column
     column :name
     column :rank
     column :phone
@@ -37,28 +37,48 @@ ActiveAdmin.register Waiter do
   action_item :check_period_stats, only: :show do
     link_to('Посмотреть статистику', check_period_stats_admin_waiter_path(waiter))
   end
+
+  member_action :upload_payent do
+    waiter = Waiter.find(params[:id])
+    waiter.update(estimate_date: Date.today)
+  end
+
+  batch_action 'Расчитать сегодня' do |ids|
+    Waiter.find(ids).each do |waiter|
+      waiter.update(estimate_date: Date.today)
+    end
+    redirect_to collection_path
+  end
+
   member_action :period_stats, method: :post do
   	@waiter = Waiter.find(params[:id])
   	@start_date = params[:dump][:start_date]
     @finish_date = params[:dump][:finish_date]
-  	shifts = @waiter.shifts.where("date >= ?", @start_date).where("date <= ?", @finish_date)
-    @hours_count = shifts.pluck(:length).sum
+  	@shifts = @waiter.shifts.where("date >= ?", @start_date).where("date <= ?", @finish_date)
+    @hours_count = @shifts.pluck(:length).sum
     @main = 0
-    shifts.each do |s| 
+    @shifts.each do |s| 
       @main += s.payments.where(waiter_id: @waiter.id, is_main: true).count
     end
     @coordinator = 0
-    shifts.each do |s|
+    @shifts.each do |s|
       @coordinator += s.payments.where(waiter_id: @waiter.id, is_coordinator: true).count
     end
     @reserve = 0
-    shifts.each do |s|
+    @shifts.each do |s|
       @reserve += s.payments.where(waiter_id: @waiter.id, is_reserve: true).count
     end
     @waste = 0
-    shifts.each do |s| 
+    @shifts.each do |s| 
       @waste += s.payments.pluck(:self_rate).sum
     end
+    @payments = []
+    @shifts.order(:date).each do |s|
+      s.payments.where(waiter_id: @waiter.id).each do |p|
+        @payments << p
+      end
+    end
+
     render "admin/waiters/period_stats"
   end
 
@@ -73,11 +93,11 @@ ActiveAdmin.register Waiter do
     f.semantic_errors
     f.inputs do
 	    f.input :name
-	    f.input :rank, as: :select, collection: Waiter::RANKS
+	    f.input :rank, as: :select, collection: Waiter::RANKS, include_blank: false
 	    f.input :phone
       f.input :birthday, as: :datepicker
-      f.input :passport_seria
-      f.input :passport_number
+      f.input :passport_seria, wrapper_html: { class: 'vvm_edr' }, label: 'Паспортные данные'
+      f.input :passport_number, wrapper_html: { class: 'vvm_edr' }, label: false
       f.input :health_book
       f.input :health_book_estimate, as: :datepicker
       f.input :gender, as: :radio,

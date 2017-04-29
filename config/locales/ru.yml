@@ -127,7 +127,7 @@ ru:
       content: "Пока нет %{resource_name}."
       link: "Создать"
     dropdown_actions:
-      button_label: "Oперации"
+      button_label: "Официанты"
     batch_actions:
       button_label: "Групповые операции"
       default_confirmation: "Вы уверены, что вы хотите это сделать?"

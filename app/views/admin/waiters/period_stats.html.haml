@@ -6,6 +6,44 @@
 %h4
   Ранк
   %strong.workers#period #{@waiter.rank}
+%table#peroid_table
+  %tr#period_table_header
+    %td   
+      Дата
+    %td    
+      Начало
+    %td    
+      Конец
+    %td    
+      Длительность
+    %td    
+      Ранк
+    %td 
+      Оплата
+    %td
+      Дополнительная информация
+  -@payments.each do |p|
+    %tr
+      %td#peroid_table_td   
+        = p.shift.date
+      %td#peroid_table_td    
+        = p.shift.start_time.strftime('%H:%M')
+      %td#peroid_table_td    
+        = p.shift.finish_time.strftime('%H:%M')
+      %td#peroid_table_td    
+        = "#{p.shift.length} часов"
+      %td#peroid_table_td    
+        = p.shift.rank
+      %td#peroid_table_td
+        = p.self_rate
+      %td#peroid_table_td
+        -if p.is_main
+          Главный официант
+        -elsif p.is_reserve
+          Резерв
+        -elsif p.is_coordinator
+          Координатор
+
 %h4
   Часов отработано
   %strong.workers#period #{@hours_count}
@@ -21,3 +59,5 @@
 %h3
   К начислению за период
   %strong.workers#period #{@waste}
+%h3
+  =link_to 'Расчитать', upload_payent_admin_waiter_path(@waiter)

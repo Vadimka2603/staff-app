@@ -9,12 +9,27 @@ config.batch_actions = false
   index do
     column :date
     column :start_time do |shift|
-      	shift.start_time.strftime('%H:%M')
-      end
+    	shift.start_time.strftime('%H:%M')
+    end
     column :finish_time do |shift|
-      	shift.finish_time.strftime('%H:%M')
-      end
+    	shift.finish_time.strftime('%H:%M')
+    end
     column :rank
+    # actions dropdown: true, defaults: false do |shift|
+    #   shift.waiters.order(:name).each do |s|
+    #     item "#{s.name}", '#'
+    #   end
+    # end
+    # column 'Официанты' do |shift|
+    #   shift.waiters.map{|w| w.name}.join('/n ')
+    # end
+    column '' do |shift|
+      table_for shift.payments, header: false do
+        column 'Официанты' do |payment|
+          payment.waiter.name
+        end
+      end
+    end
     actions
     column "" do |shift|
       link_to('Дублировать на сегодня',  duplicate_admin_shift_path(shift))
@@ -39,18 +54,45 @@ config.batch_actions = false
       row :comment
     end
 
-    panel 'Официанты' do
-      table_for shift.payments do
+    panel 'Координаторы' do
+      table_for shift.payments.where(is_coordinator: true) do
         column 'Официант' do |payment|
           payment.waiter.name
         end
-        column :is_main
-        column :is_coordinator
-        column :is_reserve
         column :self_rate if current_admin_user.ability == true
         column :client_rate if current_admin_user.ability == true
       end
-    end if shift.payments.any?
+    end if shift.payments.where(is_coordinator: true).any?
+
+    panel 'Главные официанты' do
+      table_for shift.payments.where(is_main: true) do
+        column 'Официант' do |payment|
+          payment.waiter.name
+        end
+        column :self_rate if current_admin_user.ability == true
+        column :client_rate if current_admin_user.ability == true
+      end
+    end if shift.payments.where(is_main: true).any?
+
+    panel 'Резерв' do
+      table_for shift.payments.where(is_reserve: true) do
+        column 'Официант' do |payment|
+          payment.waiter.name
+        end
+        column :self_rate if current_admin_user.ability == true
+        column :client_rate if current_admin_user.ability == true
+      end
+    end if shift.payments.where(is_reserve: true).any?
+
+    panel 'Официанты' do
+      table_for shift.payments.normal do
+        column 'Официант' do |payment|
+          payment.waiter.name
+        end
+        column :self_rate if current_admin_user.ability == true
+        column :client_rate if current_admin_user.ability == true
+      end
+    end if shift.payments.normal.any?
   end
 
   controller do
