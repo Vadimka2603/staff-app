@@ -20,8 +20,11 @@ ActiveAdmin.register Shift do
       shift.female_count+shift.male_count
     end
     column 'Заполнена?' do |shift|
-      'Нет'
-      'Дa' if shift.payments.where(waiter_id: nil).count == 0
+      if shift.payments.where.not(waiter_id: nil).count == (shift.female_count+shift.male_count)
+        "Да"
+      else
+        'Нет'
+      end
     end
     # actions dropdown: true, defaults: false do |shift|
     #   shift.waiters.order(:name).each do |s|
@@ -43,6 +46,7 @@ ActiveAdmin.register Shift do
     actions dropdown: true, defaults: false do |shift|
       item "Просмотреть", admin_shift_path(shift)
       item "Изменить данные по официантам", edit_admin_shift_path(shift)
+      item "Изменить основную информацию", fix_main_info_admin_shift_path(shift)
     end
     column "" do |shift|
       link_to('Дублировать на сегодня',  duplicate_admin_shift_path(shift))
