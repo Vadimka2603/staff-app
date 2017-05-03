@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170429144449) do
+ActiveRecord::Schema.define(version: 20170503040529) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,8 +73,8 @@ ActiveRecord::Schema.define(version: 20170429144449) do
   create_table "shifts", force: :cascade do |t|
     t.string   "rank"
     t.integer  "waiter_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.float    "selfrate"
     t.float    "clientrate"
     t.float    "hotelrate"
@@ -83,6 +83,9 @@ ActiveRecord::Schema.define(version: 20170429144449) do
     t.time     "finish_time"
     t.float    "length"
     t.text     "comment"
+    t.integer  "waiters_count"
+    t.integer  "male_count"
+    t.integer  "female_count"
   end
 
   create_table "waiters", force: :cascade do |t|
@@ -93,14 +96,13 @@ ActiveRecord::Schema.define(version: 20170429144449) do
     t.date     "estimate_date"
     t.string   "phone"
     t.date     "birthday"
-    t.integer  "passport_number"
-    t.integer  "passport_seria"
     t.boolean  "health_book",          default: true
     t.date     "health_book_estimate"
     t.integer  "manager_id"
     t.string   "gender"
     t.string   "address"
     t.string   "second_phone"
+    t.string   "passport_number"
   end
 
 end

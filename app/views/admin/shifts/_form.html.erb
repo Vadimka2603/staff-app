@@ -1,23 +1,9 @@
-<%= semantic_form_for [:admin, @shift],
-      builder: ActiveAdmin::FormBuilder do |f| %>
-  <%= f.semantic_errors %>
-
-  <%= f.inputs do %>
-    <%= f.input :date, as: :datepicker %>
-    <%= f.input :start_time, as: :time_picker %>
-    <%= f.input :finish_time, as: :time_picker %>
-    <%= f.input :rank, as: :select, collection: Shift::RANKS,
-                       include_blank: false %>
-    <%= f.input :comment, as: :text %>
-  <% end %>
-
-  <%= f.inputs 'Waiters' do %>
-    <% f.has_many :payments, allow_destroy: true do |m| %>
-      <% m.input :waiter, as: :select, collection: Waiter.all, include_blank: false %>
-      <% m.input :is_main %>
-      <% m.input :is_coordinator %>
-      <% m.input :is_reserve %>
-    <% end %>
-  <% end %>
-  <%= f.actions %>
+<% if controller.action_name == 'edit' %>
+  <%= render partial: "form_edit", resource: @catalog_organization %>
+<% elsif controller.action_name == 'new' %>
+  <%= render partial: "form_new", resource: @catalog_organization %>
+<% elsif request.post? %>
+  <%= render partial: "form_new", resource: @catalog_organization %>
+<% else %>
+  <%= render partial: "form_edit", resource: @catalog_organization %>
 <% end %>

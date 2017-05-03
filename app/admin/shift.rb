@@ -16,6 +16,13 @@ ActiveAdmin.register Shift do
     	shift.finish_time.strftime('%H:%M')
     end
     column :rank
+    column 'Количество официантов' do |shift|
+      shift.female_count+shift.male_count
+    end
+    column 'Заполнена?' do |shift|
+      'Нет'
+      'Дa' if shift.payments.where(waiter_id: nil).count == 0
+    end
     # actions dropdown: true, defaults: false do |shift|
     #   shift.waiters.order(:name).each do |s|
     #     item "#{s.name}", '#'
@@ -26,14 +33,17 @@ ActiveAdmin.register Shift do
     # end
     column '', class: "name" do |shift|
       div class: "name" do 
-        table_for shift.payments, header: false do
+        table_for shift.payments.with_waiters, header: false do
           column 'Официанты' do |payment|
             "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
           end
         end
       end
     end
-    actions dropdown: true
+    actions dropdown: true, defaults: false do |shift|
+      item "Просмотреть", admin_shift_path(shift)
+      item "Изменить данные по официантам", edit_admin_shift_path(shift)
+    end
     column "" do |shift|
       link_to('Дублировать на сегодня',  duplicate_admin_shift_path(shift))
     end
@@ -50,7 +60,9 @@ ActiveAdmin.register Shift do
       row :finish_time do |shift|
       	shift.finish_time.strftime('%H:%M')
       end
-      row :length  
+      row :length
+      row :female_count
+      row :male_count  
       row :comment
     end
 
@@ -85,14 +97,14 @@ ActiveAdmin.register Shift do
     end if shift.payments.where(is_reserve: true).any?
 
     panel 'Официанты' do
-      table_for shift.payments.normal do
+      table_for shift.payments.normal.with_waiters do
         column 'Официант' do |payment|
           payment.waiter.name
         end
         column :self_rate if current_admin_user.ability == true
         column :client_rate if current_admin_user.ability == true
       end
-    end if shift.payments.normal.any?
+    end if shift.payments.normal.with_waiters.any?
   end
 
   controller do
@@ -132,6 +144,15 @@ ActiveAdmin.register Shift do
   member_action :download_xlsx do
     @shift = Shift.find(params[:id])
     render xlsx: 'admin/shifts/shift.xlsx.axlsx'
+  end
+
+  member_action :fix_main_info do
+    @shift = Shift.find(params[:id])
+    render '_form_new', layout: 'active_admin'
+  end
+
+  action_item :fix_main_info, only: :show do
+    link_to('Изменить основную информацию', fix_main_info_admin_shift_path(shift))
   end
 
   member_action :duplicate do

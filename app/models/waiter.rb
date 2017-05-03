@@ -3,6 +3,8 @@ class Waiter < ApplicationRecord
   	has_many :payments
   	accepts_nested_attributes_for :payments, allow_destroy: true
 
+  	validates :gender, presence: true
+
   	belongs_to :manager, class_name: '::AdminUser'
   	
 	RANKS = ['Новичок', 'Официант шведской линии', 'Официант банкетной области', 'Официант первой категории', 'Официант второй категории']

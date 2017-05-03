@@ -2,9 +2,10 @@ class Payment < ApplicationRecord
   belongs_to :waiter
   belongs_to :shift
 
-  after_commit :set_costs, on: [:create, :update]
+  after_commit :set_costs, on: [:create, :update], if: Proc.new { |record| record.waiter_id.present? }
 
   scope :normal, -> { where(is_coordinator: false, is_reserve: false, is_main: false) }
+  scope :with_waiters, -> { where.not(waiter_id: nil) }
 
   def set_costs
   	if is_main || is_coordinator

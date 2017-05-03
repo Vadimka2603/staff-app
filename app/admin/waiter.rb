@@ -22,7 +22,6 @@ ActiveAdmin.register Waiter do
       row :second_phone
       row :birthday
       row :passport_number
-      row :passport_seria
       row :address
       row :health_book
       row :health_book_estimate
@@ -99,8 +98,7 @@ ActiveAdmin.register Waiter do
 	    f.input :rank, as: :select, collection: Waiter::RANKS, include_blank: false
 	    f.input :phone
       f.input :birthday, as: :datepicker
-      f.input :passport_seria, wrapper_html: { class: 'vvm_edr' }, label: 'Паспортные данные'
-      f.input :passport_number, wrapper_html: { class: 'vvm_edr' }, label: false
+      f.input :passport_number, label: 'Паспортные данные'
       f.input :address
       f.input :second_phone
       f.input :health_book

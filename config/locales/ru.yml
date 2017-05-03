@@ -259,6 +259,8 @@ ru:
         rank: 'Тип'
         length: 'Длина в часах'
         comment: 'Комментарии'
+        male_count: 'Количетсво официантов мужчин'
+        female_count: 'Количетсво официантов женщин'
       payment:
         is_main: 'Старший официант'
         is_coordinator: 'Координатор'
