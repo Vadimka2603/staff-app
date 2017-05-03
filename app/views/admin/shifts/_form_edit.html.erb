@@ -14,7 +14,7 @@
   <% end %>
 
   <%= f.inputs 'Официанты мужчины' do %>
-    <% @shift.male_count.times do %>
+    <% (@shift.male_count - @shift.payments.where(gender: 'Мужской').count).times do %>
       <% f.object.payments.build %>
     <% end %>
     <% f.fields_for :payments do |m| %>
@@ -28,7 +28,7 @@
   <% end %>
 
   <%= f.inputs 'Официанты женщины' do %>
-    <% (@shift.female_count - @shift.male_count).times do %>
+    <% (@shift.female_count - @shift.male_count - @shift.payments.where(gender: 'Женский').count).times do %>
       <% f.object.payments.build %>
     <% end %>
     <% f.fields_for :payments do |m| %>

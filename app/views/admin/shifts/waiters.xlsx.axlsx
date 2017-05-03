@@ -32,7 +32,7 @@ wb.add_worksheet(name: "Payments") do |sheet|
       
     i=1
     shift.waiters.each do |waiter|
-    	sheet.add_row [" ", "#{i}", waiter.name, waiter.phone, "Паспорт номер: #{waiter.passport_number}  #{waiter.passport_seria}"], style: 
+    	sheet.add_row [" ", "#{i}", waiter.name, waiter.phone, "Паспорт номер: #{waiter.passport_number}"], style: 
       [row_style, right_row_style, left_row_style, row_style, row_style, row_style]
       i+=1
     end
