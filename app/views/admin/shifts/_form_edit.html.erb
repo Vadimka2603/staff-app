@@ -14,12 +14,12 @@
   <% end %>
 
   <%= f.inputs 'Официанты мужчины' do %>
-    <% (@shift.male_count - @shift.payments.where(gender: 'Мужской').count).times do %>
+    <% (@shift.male_count - @shift.payments.male.count).times do %>
       <% f.object.payments.build %>
     <% end %>
     <% f.fields_for :payments do |m| %>
       <%= m.inputs do %>
-         <%= m.input :waiter, as: :select, collection: Waiter.where(gender: 'Мужской'), include_blank: false %>
+         <%= m.input :waiter, as: :select, collection: Waiter.male, include_blank: false %>
         <%= m.input :is_main %>
         <%= m.input :is_coordinator %>
         <%= m.input :is_reserve %>
@@ -28,12 +28,12 @@
   <% end %>
 
   <%= f.inputs 'Официанты женщины' do %>
-    <% (@shift.female_count - @shift.male_count - @shift.payments.where(gender: 'Женский').count).times do %>
+    <% (@shift.female_count - @shift.male_count - @shift.payments.female.count).times do %>
       <% f.object.payments.build %>
     <% end %>
     <% f.fields_for :payments do |m| %>
       <%= m.inputs do %>
-        <%= m.input :waiter, as: :select, collection: Waiter.where(gender: 'Женский'), include_blank: false %>
+        <%= m.input :waiter, as: :select, collection: Waiter.female, include_blank: false %>
         <%= m.input :is_main %>
         <%= m.input :is_coordinator %>
         <%= m.input :is_reserve %>
