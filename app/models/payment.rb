@@ -8,8 +8,7 @@ class Payment < ApplicationRecord
   scope :normal, -> { where(is_coordinator: false, is_reserve: false, is_main: false) }
   scope :with_waiters, -> { where.not(waiter_id: nil) }
 
-  scope :female, -> { where(gender: 'Женский') }
-  scope :male, -> { where(gender: 'Мужской') }
+  
   def set_costs
   	if is_main || is_coordinator
   		additional_costs

@@ -5,6 +5,9 @@ class Waiter < ApplicationRecord
 
   	validates :gender, presence: true
 
+  	scope :female, -> { where(gender: 'Женский') }
+ 	scope :male, -> { where(gender: 'Мужской') }
+
   	belongs_to :manager, class_name: '::AdminUser'
   	
 	RANKS = ['Новичок', 'Официант шведской линии', 'Официант банкетной области', 'Официант первой категории', 'Официант второй категории']
