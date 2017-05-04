@@ -3,6 +3,8 @@ class Shift < ApplicationRecord
   has_many :payments
   accepts_nested_attributes_for :payments, allow_destroy: true
 
+  validates :male_count, :female_count, presence: true
+
   after_commit :set_correct_times, on: [:create, :update]
 
   RANKS = ['Шведская', 'Банкетная', 'По меню']
