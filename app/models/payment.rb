@@ -3,13 +3,14 @@ class Payment < ApplicationRecord
   belongs_to :shift
   delegate :gender, to: :waiter, prefix: false, allow_nil: true
 
-  after_commit :set_costs, on: [:create, :update], if: Proc.new { |record| record.waiter_id.present? }
+  after_commit :set_costs, on: [:create, :update]
 
   scope :normal, -> { where(is_coordinator: false, is_reserve: false, is_main: false) }
   scope :with_waiters, -> { where.not(waiter_id: nil) }
 
   
   def set_costs
+  	return nil unless waiter_id.present?
   	if is_main || is_coordinator
   		additional_costs
   	elsif
