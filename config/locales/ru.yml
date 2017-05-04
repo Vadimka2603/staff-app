@@ -269,6 +269,14 @@ ru:
         client_rate: 'Оплата клиента'
         waiter_id: 'Имя'
         waiter: 'Имя'
+    errors:
+      models:
+        shift:
+          attributes:
+            male_count:
+              blank: 'Не может быть пустым'
+            female_count:
+              blank: 'Не может быть пустым'
 
   errors:
     messages:
