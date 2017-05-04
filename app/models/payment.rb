@@ -9,8 +9,7 @@ class Payment < ApplicationRecord
   scope :with_waiters, -> { where.not(waiter_id: nil) }
 
   
-  def set_costs
-  	return nil unless waiter_id.present? 
+  def set_costs 
   	if is_main || is_coordinator
   		additional_costs
   	else
@@ -31,7 +30,7 @@ class Payment < ApplicationRecord
   end
 
     def set_costs
-	  case waiter.rank
+	  case waiter.try(:rank) || 'Отсутствует'
 	  when 'Новичок'
 	  	update_column(:self_rate, 100*shift.hours_count)
 	  	update_column(:client_rate, 160*shift.hours_count)
