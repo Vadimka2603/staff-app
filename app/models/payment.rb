@@ -10,12 +10,15 @@ class Payment < ApplicationRecord
 
   
   def set_costs
-  	return nil unless !waiter_id.present?
-  	if is_main || is_coordinator
-  		additional_costs
-  	elsif
-  		classic_costs
-  	end
+  	  if waiter_id.present?
+	  	if is_main || is_coordinator
+	  		additional_costs
+	  	else
+	  		classic_costs
+	  	end
+	  else
+	  	nil
+	  end
   end
 
   def additional_costs
