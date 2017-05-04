@@ -10,6 +10,7 @@ class Payment < ApplicationRecord
 
   
   def set_costs
+  	return nil unless waiter_id.present? 
   	if is_main || is_coordinator
   		additional_costs
   	else
@@ -54,7 +55,7 @@ class Payment < ApplicationRecord
 	  		update_column(:cost, 200)
 	  	end
 
-	  when 'Официант вотор категории'
+	  when 'Официант второй категории'
 	  	update_column(:self_rate, 120*shift.hours_count)
 	  	update_column(:client_rate, 200*shift.hours_count)
 	  	update_column(:cost, 200)
