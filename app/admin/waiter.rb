@@ -26,7 +26,7 @@ ActiveAdmin.register Waiter do
       row :health_book
       row :health_book_estimate
       row 'Менеджеp' do
-        waiter.name
+        waiter.manager.name
       end
       row :gender
       row :estimate_date
