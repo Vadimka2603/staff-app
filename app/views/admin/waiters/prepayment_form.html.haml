@@ -1,0 +1,9 @@
+= form_for :dump, url: {action: "add_prepayment"}, html: { multipart: true } do |f|
+  %table
+    %tr
+      %td
+        %label Введите сумму    
+        .label#period= f.text_field :sum, :class => 'numeric'
+    %tr
+      %td{width: "110"}
+        = submit_tag 'Выполнить'

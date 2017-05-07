@@ -60,4 +60,8 @@
   К начислению за период
   %strong.workers#period #{@waste}
 %h3
-  =link_to 'Расчитать', upload_payent_admin_waiter_path(@waiter, date: @finish_date)
+  К начислению за период c учетом выданного ранее аванса
+  %strong.workers#period #{@limited_waste}
+
+%h3
+  =link_to 'Расчитать', upload_payent_admin_waiter_path(@waiter, date: @finish_date, limited_waste: @limited_waste)

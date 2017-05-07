@@ -1,6 +1,6 @@
 class Shift < ApplicationRecord
   has_many :waiters, class_name: '::Waiter', through: :payments, source: :waiter
-  has_many :payments
+  has_many :payments, dependent: :destroy
   accepts_nested_attributes_for :payments, allow_destroy: true
 
   validates :male_count, :female_count, presence: true
