@@ -45,7 +45,7 @@ ActiveAdmin.register Waiter do
     waiter = Waiter.find(params[:id])
     payments = Payment.where(waiter_id: waiter.id)
     payments.each do |p|
-      if p.shift.date <= params[:date]
+      if p.shift.date <= params[:date].to_date
         p.update(paid: true)
       end
     end
