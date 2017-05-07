@@ -4,7 +4,7 @@ ActiveAdmin.register Shift do
 
   actions :all
 
-  
+  config.sort_order = 'date_desc'
 
   index do
     selectable_column
@@ -39,6 +39,9 @@ ActiveAdmin.register Shift do
         table_for shift.payments.with_waiters, header: false do
           column 'Официанты' do |payment|
             "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
+          end
+          column '' do |payment|
+            link_to('Расчитать',  paid_admin_waiter_path(payment.waiter))
           end
         end
       end

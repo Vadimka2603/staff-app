@@ -60,4 +60,4 @@
   К начислению за период
   %strong.workers#period #{@waste}
 %h3
-  =link_to 'Расчитать', upload_payent_admin_waiter_path(@waiter)
+  =link_to 'Расчитать', upload_payent_admin_waiter_path(@waiter, date: @finish_date)

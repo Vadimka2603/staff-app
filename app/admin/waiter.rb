@@ -43,7 +43,7 @@ ActiveAdmin.register Waiter do
 
   member_action :upload_payent do
     waiter = Waiter.find(params[:id])
-    waiter.update(estimate_date: Date.today)
+    waiter.update(estimate_date: params[:date])
     redirect_to admin_waiter_path(waiter)
   end
 
@@ -59,6 +59,48 @@ ActiveAdmin.register Waiter do
   	@start_date = params[:dump][:start_date]
     @finish_date = params[:dump][:finish_date]
   	@shifts = @waiter.shifts.where("date >= ?", @start_date).where("date <= ?", @finish_date)
+    @hours_count = @shifts.pluck(:length).sum
+    @main = 0
+    @shifts.each do |s| 
+      @main += s.payments.where(waiter_id: @waiter.id, is_main: true).count
+    end
+    @coordinator = 0
+    @shifts.each do |s|
+      @coordinator += s.payments.where(waiter_id: @waiter.id, is_coordinator: true).count
+    end
+    @reserve = 0
+    @shifts.each do |s|
+      @reserve += s.payments.where(waiter_id: @waiter.id, is_reserve: true).count
+    end
+    @waste = 0
+    @shifts.each do |s| 
+      @waste += s.payments.pluck(:self_rate).sum
+    end
+    @payments = []
+    @shifts.order(:date).each do |s|
+      s.payments.where(waiter_id: @waiter.id).each do |p|
+        @payments << p
+      end
+    end
+
+    render "admin/waiters/period_stats"
+  end
+
+  member_action :paid, method: :get do
+    @waiter = Waiter.find(params[:id])
+
+    @start_date = @waiter.estimate_date
+    date = @waiter.payments.order(:created_at).last.shift.date.to_s
+    time = @waiter.payments.order(:created_at).last.shift.finish_time.strftime('%H:%M')
+    last_shift_datetime = (date + " " + time).to_datetime
+    if last_shift_datetime < Time.now
+      @finish_date = last_shift_datetime.to_date
+    else
+      @finish_date = @waiter.payments.order(:created_at)[-2].date
+    end
+
+
+    @shifts = @waiter.shifts.where("date >= ?", @start_date).where("date <= ?", @finish_date)
     @hours_count = @shifts.pluck(:length).sum
     @main = 0
     @shifts.each do |s| 
