@@ -65,7 +65,7 @@ ActiveAdmin.register Waiter do
         p.update(paid: true)
       end
     end
-    waiter.update(estimate_date: params[:date], prepayment_limit: waiter.prepayment_limit-params[:limited_waste].to_i)
+    waiter.update(estimate_date: params[:date], prepayment_limit: waiter.prepayment_limit.to_i-params[:limited_waste].to_i)
     redirect_to admin_shifts_path
   end
 
