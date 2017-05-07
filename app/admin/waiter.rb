@@ -1,5 +1,8 @@
 ActiveAdmin.register Waiter do
   filter :manager
+  filter :name
+  filter :health_book
+  filter :rank
 
   actions :all
 

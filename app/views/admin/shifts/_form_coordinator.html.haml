@@ -1,0 +1,10 @@
+= form_for :dump, url: {action: "coordinator"}, html: { multipart: true } do |f|
+  %table
+    %tr
+      %td
+        %label Выберите координатора    
+        .label#period= f.select :waiter, collection: @waiters
+    %tr
+      %td{width: "110"}
+        = submit_tag 'Выполнить'
+      

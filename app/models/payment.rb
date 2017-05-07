@@ -29,9 +29,9 @@ class Payment < ApplicationRecord
   	end
   end
 
-    def set_costs
+    def classic_costs
 	  case waiter.try(:rank) || 'Отсутствует'
-	  when 'Новичок'
+	  when 'Стажер'
 	  	update_column(:self_rate, 100*shift.hours_count)
 	  	update_column(:client_rate, 160*shift.hours_count)
 	  	update_column(:cost, 160)
@@ -60,7 +60,7 @@ class Payment < ApplicationRecord
 	  	update_column(:cost, 200)
 
 	  when 'Официант первой категории'
-	  	update_column(:self_rate, 120*shift.hours_count)
+	  	update_column(:self_rate, 130*shift.hours_count)
 	  	update_column(:client_rate, 200*shift.hours_count)
 	  	update_column(:cost, 200)
 	  end

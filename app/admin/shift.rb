@@ -34,16 +34,40 @@ ActiveAdmin.register Shift do
     # column 'Официанты' do |shift|
     #   shift.waiters.map{|w| w.name}.join('/n ')
     # end
-    column '', class: "name" do |shift|
+    column 'Официанты' do |shift|
       div class: "name" do 
-        table_for shift.payments.with_waiters, header: false do
-          column 'Официанты' do |payment|
-            if payment.paid?
-              div :class => 'green' do
-                "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
+        table_for shift.payments.with_waiters do
+          column '' do |payment|
+            if payment.waiter.gender == 'Мужской' && !payment.is_coordinator? && !payment.is_reserve?
+              div :class => 'male' do
+                if payment.paid?
+                  div :class => 'green' do 
+                    text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
+                    text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
+                    text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
+                    text
+                  end
+                else
+                 text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
+                    text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
+                    text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
+                    text
+                end
               end
             else
-              "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
+              if payment.paid?
+                div :class => 'green' do 
+                 text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
+                    text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
+                    text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
+                    text
+                end
+              else
+                text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
+                    text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
+                    text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
+                    text
+              end
             end
           end
           column '' do |payment|
@@ -60,6 +84,8 @@ ActiveAdmin.register Shift do
       item "Просмотреть", admin_shift_path(shift)
       item "Изменить данные по официантам", edit_admin_shift_path(shift)
       item "Изменить основную информацию", fix_main_info_admin_shift_path(shift)
+      item "Добавить координатора", coordinator_form_admin_shift_path(shift)
+      item "Добавить резервного официанта", reserve_form_admin_shift_path(shift)
     end
     column "" do |shift|
       link_to('Дублировать на сегодня',  duplicate_admin_shift_path(shift))
@@ -131,10 +157,7 @@ ActiveAdmin.register Shift do
   end
 
   action_item only: :index do
-    if current_admin_user.ability == true
-      link_to 'Отчет за день', action: 'check_day_stats'
-    else
-    end
+    link_to 'Отчет за день', action: 'check_day_stats'
   end
 
   collection_action :check_day_stats do
@@ -185,6 +208,34 @@ ActiveAdmin.register Shift do
 
   collection_action :check_period_stats do
     render "admin/shifts/check_period_stats"
+  end
+
+  member_action :reserve_form do
+    shift = Shift.find(params[:id])
+    @waiters = Waiter.all.to_a - shift.waiters.to_a
+    @waiters = @waiters.map{|waiter| ["#{waiter.name}", waiter.id]}
+    render "admin/shifts/_form_reserve"
+  end
+
+  member_action :reserve, method: :post do
+    shift = Shift.find(params[:id])
+    waiter = Waiter.find(params[:dump][:waiter])
+    Payment.create(shift_id: shift.id, waiter_id: waiter.id, is_reserve: true)
+    redirect_to admin_shift_path(shift)
+  end
+
+  member_action :coordinator_form do
+    shift = Shift.find(params[:id])
+    @waiters = Waiter.all.to_a - shift.waiters.to_a
+    @waiters = @waiters.map{|waiter| ["#{waiter.name}", waiter.id]}
+    render "admin/shifts/_form_coordinator"
+  end
+
+  member_action :coordinator, method: :post do
+    shift = Shift.find(params[:id])
+    waiter = Waiter.find(params[:dump][:waiter])
+    Payment.create(shift_id: shift.id, waiter_id: waiter.id, is_coordinator: true)
+    redirect_to admin_shift_path(shift)
   end
 
   collection_action :period_stats, method: :post do

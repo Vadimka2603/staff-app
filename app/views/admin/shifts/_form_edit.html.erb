@@ -21,8 +21,6 @@
     <% f.fields_for :payments do |m| %>
       <%= m.input :waiter, as: :select, collection: Waiter.all %>
       <%= m.input :is_main %>
-      <%= m.input :is_coordinator %>
-      <%= m.input :is_reserve %>
     <% end %>
   <% end %>
   <%= f.actions %>
