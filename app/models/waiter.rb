@@ -13,11 +13,17 @@ class Waiter < ApplicationRecord
 	RANKS = ['Стажер', 'Официант шведской линии', 'Официант банкетной области', 'Официант первой категории', 'Официант второй категории']
 
 	after_commit :set_prepayment, on: [:update]
-
+	after_create :set_estimate_date
 	def set_prepayment
 		if prepayment_limit <= 0
 			self.update_column(:prepayment, 0)
 			self.update_column(:prepayment_limit, 0)
+		end
+	end
+
+	def set_estimate_date
+		if estimate_date.nil?
+			self.update_column(:estimate_date, Time.now.to_date)
 		end
 	end
 end

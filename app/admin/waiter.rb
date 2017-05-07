@@ -35,7 +35,7 @@ ActiveAdmin.register Waiter do
       row :estimate_date
       row "Аванс" do
         "Выдано авансом #{waiter.prepayment}. Числится за официантом #{waiter.prepayment_limit}"
-      end if waiter.prepayment > 0
+      end if waiter.prepayment.to_i > 0
     end
 
   end
@@ -111,7 +111,7 @@ ActiveAdmin.register Waiter do
 
     @shifts.each do |s|
 
-      if @prepayment_limit > 0
+      if @prepayment_limit.to_i > 0
         @limited_money = s.payments.where(waiter_id: @waiter.id).pluck(:self_rate).sum/2
         if @prepayment_limit >= @limited_money
           @prepayment_limit -= @limited_money
@@ -163,7 +163,7 @@ ActiveAdmin.register Waiter do
     end
     @shifts.each do |s|
 
-      if @prepayment_limit > 0
+      if @prepayment_limit.to_i > 0
         @limited_money = s.payments.where(waiter_id: @waiter.id).pluck(:self_rate).sum/2
         if @prepayment_limit >= @limited_money
           @prepayment_limit -= @limited_money
