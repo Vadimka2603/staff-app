@@ -50,7 +50,7 @@ ActiveAdmin.register Waiter do
       end
     end
     waiter.update(estimate_date: params[:date])
-    redirect_to admin_waiter_path(waiter)
+    redirect_to admin_shifts_path
   end
 
   batch_action 'Расчитать сегодня' do |ids|

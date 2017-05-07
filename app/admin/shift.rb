@@ -38,7 +38,13 @@ ActiveAdmin.register Shift do
       div class: "name" do 
         table_for shift.payments.with_waiters, header: false do
           column 'Официанты' do |payment|
-            "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
+            if payment.paid?
+              div :class => 'green' do
+                "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
+              end
+            else
+              "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
+            end
           end
           column '' do |payment|
             
