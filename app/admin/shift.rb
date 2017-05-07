@@ -16,7 +16,7 @@ ActiveAdmin.register Shift do
     	shift.finish_time.strftime('%H:%M')
     end
     column :rank
-    column 'Количество официантов' do |shift|
+    column 'Кол-во официантов' do |shift|
       shift.female_count+shift.male_count
     end
     column 'Заполнена?' do |shift|
@@ -41,7 +41,11 @@ ActiveAdmin.register Shift do
             "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
           end
           column '' do |payment|
-            link_to('Расчитать',  paid_admin_waiter_path(payment.waiter))
+            
+            shift_datetime = (shift.date.to_s + " " + shift.finish_time.strftime('%H:%M')).to_datetime
+            if shift_datetime < Time.now && !payment.paid?
+              link_to('Расчитать',  paid_admin_waiter_path(payment.waiter, finish_date: payments.shift.date))
+            end
           end
         end
       end

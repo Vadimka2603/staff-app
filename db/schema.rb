@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170503040529) do
+ActiveRecord::Schema.define(version: 20170507103931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 20170503040529) do
     t.boolean  "is_coordinator", default: false
     t.boolean  "is_reserve",     default: false
     t.integer  "cost"
+    t.boolean  "paid",           default: false
   end
 
   create_table "shifts", force: :cascade do |t|

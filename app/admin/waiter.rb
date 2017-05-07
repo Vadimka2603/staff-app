@@ -43,6 +43,8 @@ ActiveAdmin.register Waiter do
 
   member_action :upload_payent do
     waiter = Waiter.find(params[:id])
+    payments = Payment.where(waiter_id: 1).joins(:shift).where(shift: ["date <= ?", params[:date]])
+    payments.update_all(paid: true)
     waiter.update(estimate_date: params[:date])
     redirect_to admin_waiter_path(waiter)
   end
@@ -90,14 +92,8 @@ ActiveAdmin.register Waiter do
     @waiter = Waiter.find(params[:id])
 
     @start_date = @waiter.estimate_date
-    date = @waiter.payments.order(:created_at).last.shift.date.to_s
-    time = @waiter.payments.order(:created_at).last.shift.finish_time.strftime('%H:%M')
-    last_shift_datetime = (date + " " + time).to_datetime
-    if last_shift_datetime < Time.now
-      @finish_date = last_shift_datetime.to_date
-    else
-      @finish_date = @waiter.payments.order(:created_at)[-2].date
-    end
+    @finish_date = params[:finish_date]
+    
 
 
     @shifts = @waiter.shifts.where("date >= ?", @start_date).where("date <= ?", @finish_date)
