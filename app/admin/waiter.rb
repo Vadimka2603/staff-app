@@ -43,8 +43,12 @@ ActiveAdmin.register Waiter do
 
   member_action :upload_payent do
     waiter = Waiter.find(params[:id])
-    payments = Payment.where(waiter_id: waiter.id).joins(:shift).where(shift: ["date <= ?", params[:date]])
-    payments.update_all(paid: true)
+    payments = Payment.where(waiter_id: waiter.id)
+    payments.each do |p|
+      if p.shift.date <= params[:date]
+        p.update(paid: true)
+      end
+    end
     waiter.update(estimate_date: params[:date])
     redirect_to admin_waiter_path(waiter)
   end
