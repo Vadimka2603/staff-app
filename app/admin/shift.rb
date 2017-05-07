@@ -36,19 +36,19 @@ ActiveAdmin.register Shift do
     # end
     column 'Официанты' do |shift|
       div class: "name" do 
-        table_for shift.payments.with_waiters.joins(:waiter).order('waiters.gender') do
+        table_for shift.payments.with_waiters do
           column '' do |payment|
             if payment.waiter.gender == 'Мужской' && !payment.is_coordinator? && !payment.is_reserve?
               div :class => 'male' do
                 if payment.paid?
                   div :class => 'green' do 
-                    text = "#{shift.payments.with_waiters.joins(:waiter).order('waiters.gender').index(payment)+1}. #{payment.waiter.name}"
+                    text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
                     text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
                     text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
                     text
                   end
                 else
-                 text = "#{shift.payments.with_waiters.joins(:waiter).order('waiters.gender').index(payment)+1}. #{payment.waiter.name}"
+                 text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
                     text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
                     text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
                     text
@@ -57,13 +57,13 @@ ActiveAdmin.register Shift do
             else
               if payment.paid?
                 div :class => 'green' do 
-                 text = "#{shift.payments.with_waiters.joins(:waiter).order('waiters.gender').index(payment)+1}. #{payment.waiter.name}"
+                 text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
                     text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
                     text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
                     text
                 end
               else
-                text = "#{shift.payments.with_waiters.joins(:waiter).order('waiters.gender').index(payment)+1}. #{payment.waiter.name}"
+                text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
                     text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
                     text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
                     text
