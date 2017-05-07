@@ -36,7 +36,7 @@ ActiveAdmin.register Shift do
     # end
     column 'Официанты' do |shift|
       div class: "name" do 
-        table_for shift.payments.with_waiters do
+        table_for shift.payments.with_waiters.joins(:waiter).order('waiters.gender') do
           column '' do |payment|
             if payment.waiter.gender == 'Мужской' && !payment.is_coordinator? && !payment.is_reserve?
               div :class => 'male' do
