@@ -44,7 +44,7 @@ ActiveAdmin.register Shift do
             
             shift_datetime = (shift.date.to_s + " " + shift.finish_time.strftime('%H:%M')).to_datetime
             if shift_datetime < Time.now && !payment.paid?
-              link_to('Расчитать',  paid_admin_waiter_path(payment.waiter, finish_date: payments.shift.date))
+              link_to('Расчитать',  paid_admin_waiter_path(payment.waiter, finish_date: payment.shift.date))
             end
           end
         end
