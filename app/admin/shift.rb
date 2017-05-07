@@ -42,13 +42,13 @@ ActiveAdmin.register Shift do
               div :class => 'male' do
                 if payment.paid?
                   div :class => 'green' do 
-                    text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
+                    text = "#{shift.payments.with_waiters.joins(:waiter).order('waiters.gender').index(payment)+1}. #{payment.waiter.name}"
                     text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
                     text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
                     text
                   end
                 else
-                 text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
+                 text = "#{shift.payments.with_waiters.joins(:waiter).order('waiters.gender').index(payment)+1}. #{payment.waiter.name}"
                     text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
                     text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
                     text
@@ -57,13 +57,13 @@ ActiveAdmin.register Shift do
             else
               if payment.paid?
                 div :class => 'green' do 
-                 text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
+                 text = "#{shift.payments.with_waiters.joins(:waiter).order('waiters.gender').index(payment)+1}. #{payment.waiter.name}"
                     text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
                     text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
                     text
                 end
               else
-                text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
+                text = "#{shift.payments.with_waiters.joins(:waiter).order('waiters.gender').index(payment)+1}. #{payment.waiter.name}"
                     text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
                     text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
                     text
