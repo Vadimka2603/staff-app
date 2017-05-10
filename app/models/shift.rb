@@ -3,7 +3,7 @@ class Shift < ApplicationRecord
   has_many :payments, dependent: :destroy
   accepts_nested_attributes_for :payments, allow_destroy: true
 
-  validates :male_count, :female_count, presence: true
+  validates :male_count, :female_count, :date, :start_time, :finish_time, presence: true
 
   after_commit :set_correct_times, on: [:create, :update]
 

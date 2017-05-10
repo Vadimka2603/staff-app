@@ -14,13 +14,9 @@
   <% end %>
 
   <%= f.inputs 'Официанты' do %>
-    <% (f.object.male_count + f.object.female_count - f.object.payments.count).times do %>
-      <% f.object.payments.build %>
-    <% end %>
-
-    <% f.fields_for :payments do |m| %>
-      <%= m.input :waiter, as: :select, collection: Waiter.all %>
-      <%= m.input :is_main %>
+    <% f.has_many :payments, allow_destroy: true do |e| %>
+      <% e.input :waiter, as: :select, collection: Waiter.all  %>
+      <% e.input :is_main  %>
     <% end %>
   <% end %>
   <%= f.actions %>
