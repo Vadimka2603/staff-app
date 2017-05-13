@@ -227,7 +227,7 @@ ActiveAdmin.register Shift do
 
   member_action :activate do
     payment = Payment.find(params[:payment_id])
-    payment.update(actice: true)
+    payment.update(active: true)
     redirect_to admin_shifts_path
   end
 
