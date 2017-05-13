@@ -17,6 +17,8 @@
     <% f.has_many :payments, allow_destroy: true, new_record: true do |e| %>
       <% e.input :waiter, as: :select, collection: Waiter.all  %>
       <% e.input :is_main  %>
+      <% e.input :is_reserve, input_html: { disabled: true }  %>
+      <% e.input :is_coordinator, input_html: { disabled: true }  %>
     <% end %>
   <% end %>
   <%= f.actions %>
