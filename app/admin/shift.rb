@@ -31,7 +31,7 @@ ActiveAdmin.register Shift do
       div class: "name" do 
         table_for shift.payments do
           column '' do |payment|
-            if payment.waiter.gender == 'Мужской' && !payment.is_coordinator? && !payment.is_reserve?
+            if payment.waiter.try(:gender) == 'Мужской' && !payment.is_coordinator? && !payment.is_reserve?
               div :class => 'male' do
                 if payment.paid?
                   div :class => 'green' do 
