@@ -215,7 +215,7 @@ ActiveAdmin.register Shift do
     shift = Shift.find(params[:id])
     waiter = Waiter.find(params[:dump][:waiter])
     Payment.create(shift_id: shift.id, waiter_id: waiter.id, is_reserve: true)
-    redirect_to admin_shift_path(shift)
+    redirect_to admin_shifts_path
   end
 
   member_action :coordinator_form do
@@ -235,7 +235,7 @@ ActiveAdmin.register Shift do
     shift = Shift.find(params[:id])
     waiter = Waiter.find(params[:dump][:waiter])
     Payment.create(shift_id: shift.id, waiter_id: waiter.id, is_coordinator: true)
-    redirect_to admin_shift_path(shift)
+    redirect_to admin_shifts_path
   end
 
   collection_action :period_stats, method: :post do
