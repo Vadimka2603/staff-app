@@ -184,7 +184,7 @@ ActiveAdmin.register Waiter do
     end
     @start_date = @waiter.estimate_date.strftime('%d-%m-%Y')
 
-    @finish_date = params[:finish_date].strftime('%d-%m-%Y')
+    @finish_date = params[:finish_date].split('-').reverse.join('-')
     
     render "admin/waiters/period_stats"
   end
