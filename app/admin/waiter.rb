@@ -182,7 +182,10 @@ ActiveAdmin.register Waiter do
         @payments << p
       end
     end
+    @start_date = @waiter.estimate_date.strftime('%d-%m-%Y')
 
+    @finish_date = params[:finish_date].strftime('%d-%m-%Y')
+    
     render "admin/waiters/period_stats"
   end
 
