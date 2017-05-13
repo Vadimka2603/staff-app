@@ -7,11 +7,21 @@ class Shift < ApplicationRecord
 
   after_commit :set_correct_times, on: [:create, :update]
 
-  after_commit :check_payments_count, on: [:create, :update]
+  after_commit :check_payments_count, on: [:update]
+
+  after_create :reslove_duplicates
 
   def check_payments_count
   	(female_count+male_count-self.payments.where.not(is_coordinator: true, is_reserve: true).count).times do
   		self.payments.create
+  	end
+  end
+
+  def reslove_duplicates
+  	self.payments.where.not(waiter_id: nil).each do |p|
+  	  if !p.valid?
+  	  	p.destroy
+  	  end
   	end
   end
 
