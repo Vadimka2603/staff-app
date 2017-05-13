@@ -23,6 +23,7 @@ class Shift < ApplicationRecord
   	  	p.destroy
   	  end
   	end
+  	check_payments_count
   end
 
   RANKS = ['Шведская', 'Банкетная', 'По меню']
