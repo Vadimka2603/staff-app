@@ -72,7 +72,7 @@ ActiveAdmin.register Shift do
             shift_datetime = (shift.date.to_s + " " + shift.finish_time.strftime('%H:%M')).to_datetime
             if payment.is_reserve && !payment.active
               link_to('Добавить в смену', activate_admin_shift_path(payment.shift, payment_id: payment.id))
-            elsif shift_datetime < Time.now && !payment.paid?
+            elsif shift_datetime < Time.now && !payment.paid? && payment.waiter.present?
               link_to('Расчитать',  paid_admin_waiter_path(payment.waiter, finish_date: payment.shift.date))
             end
           end
