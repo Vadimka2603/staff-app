@@ -20,6 +20,8 @@
       Ранк
     %td 
       Оплата
+    %td 
+      Оплачено?
     %td
       Дополнительная информация
   -@payments.each do |p|
@@ -36,6 +38,11 @@
         = p.shift.rank
       %td#peroid_table_td
         = p.self_rate
+      %td#peroid_table_td
+        - if p.paid?
+          Да
+        - else
+          Нет
       %td#peroid_table_td
         -if p.is_main
           Главный официант

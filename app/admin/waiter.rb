@@ -105,14 +105,14 @@ ActiveAdmin.register Waiter do
     @waste = 0
     @limit_sum = 0
     @shifts.each do |s| 
-      @waste += s.payments.where(waiter_id: @waiter.id).pluck(:self_rate).sum
+      @waste += s.payments.where(waiter_id: @waiter.id, paid: false).pluck(:self_rate).sum
 
     end
 
     @shifts.each do |s|
 
       if @prepayment_limit.to_i > 0
-        @limited_money = s.payments.where(waiter_id: @waiter.id).pluck(:self_rate).sum/2
+        @limited_money = s.payments.where(waiter_id: @waiter.id, paid: false).pluck(:self_rate).sum/2
         if @prepayment_limit >= @limited_money
           @prepayment_limit -= @limited_money
         else
@@ -185,7 +185,7 @@ ActiveAdmin.register Waiter do
     @start_date = @waiter.estimate_date.strftime('%d-%m-%Y')
 
     @finish_date = params[:finish_date].split('-').reverse.join('-')
-    
+
     render "admin/waiters/period_stats"
   end
 
