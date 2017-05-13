@@ -35,34 +35,34 @@ ActiveAdmin.register Shift do
               div :class => 'male' do
                 if payment.paid?
                   div :class => 'green' do 
-                    text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
-                    text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
-                    text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
-                    text = "Pезерв #{payment.waiter.name} в смене" if payment.is_reserve && payment.active
+                    text = "#{shift.payments.index(payment)+1}. #{payment.waiter.try(:name)}"
+                    text = "Kоорд. #{payment.waiter.try(:name)}" if payment.is_coordinator
+                    text = "Pезерв #{payment.waiter.try(:name)}" if payment.is_reserve
+                    text = "Pезерв #{payment.waiter.try(:name)} в смене" if payment.is_reserve && payment.active
                     text
                   end
                 else
-                 text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
-                    text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
-                    text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
-                    text = "Pезерв #{payment.waiter.name} в смене" if payment.is_reserve && payment.active
+                 text = "#{shift.payments.index(payment)+1}. #{payment.waiter.try(:name)}"
+                    text = "Kоорд. #{payment.waiter.try(:name)}" if payment.is_coordinator
+                    text = "Pезерв #{payment.waiter.try(:name)}" if payment.is_reserve
+                    text = "Pезерв #{payment.waiter.try(:name)} в смене" if payment.is_reserve && payment.active
                     text
                 end
               end
             else
               if payment.paid?
                 div :class => 'green' do 
-                 text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
-                    text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
-                    text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
-                    text = "Pезерв #{payment.waiter.name} в смене" if payment.is_reserve && payment.active
+                 text = "#{shift.payments.index(payment)+1}. #{payment.waiter.try(:name)}"
+                    text = "Kоорд. #{payment.waiter.try(:name)}" if payment.is_coordinator
+                    text = "Pезерв #{payment.waiter.try(:name)}" if payment.is_reserve
+                    text = "Pезерв #{payment.waiter.try(:name)} в смене" if payment.is_reserve && payment.active
                     text
                 end
               else
-                text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
-                    text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
-                    text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
-                    text = "Pезерв #{payment.waiter.name} в смене" if payment.is_reserve && payment.active
+                text = "#{shift.payments.index(payment)+1}. #{payment.waiter.try(:name)}"
+                    text = "Kоорд. #{payment.waiter.try(:name)}" if payment.is_coordinator
+                    text = "Pезерв #{payment.waiter.try(:name)}" if payment.is_reserve
+                    text = "Pезерв #{payment.waiter.try(:name)} в смене" if payment.is_reserve && payment.active
                     text
               end
             end
