@@ -3,18 +3,18 @@
   <%= f.semantic_errors %>
 
   <%= f.inputs do %>
-    <%= f.input :date, as: :datepicker, input_html: { disabled: true } %>
-    <%= f.input :start_time, as: :time_picker, input_html: { disabled: true } %>
-    <%= f.input :finish_time, as: :time_picker, input_html: { disabled: true } %>
+    <%= f.input :date, as: :datepicker %>
+    <%= f.input :start_time, as: :time_picker %>
+    <%= f.input :finish_time, as: :time_picker %>
     <%= f.input :rank, as: :select, collection: Shift::RANKS,
-                       include_blank: false, input_html: { disabled: true } %>
-    <%= f.input :male_count, input_html: { disabled: true } %>
-    <%= f.input :female_count, input_html: { disabled: true } %>
-    <%= f.input :comment, as: :text, input_html: { disabled: true } %>
+                       include_blank: false %>
+    <%= f.input :male_count %>
+    <%= f.input :female_count %>
+    <%= f.input :comment, as: :text %>
   <% end %>
 
   <%= f.inputs 'Официанты' do %>
-    <% f.has_many :payments, allow_destroy: true do |e| %>
+    <% f.has_many :payments, allow_destroy: true, new_record: true do |e| %>
       <% e.input :waiter, as: :select, collection: Waiter.all  %>
       <% e.input :is_main  %>
     <% end %>

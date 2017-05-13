@@ -2,7 +2,7 @@ ActiveAdmin.register Waiter do
   filter :manager
   filter :name
   filter :health_book
-  filter :rank
+  filter :rank, as: :select
 
   actions :all
 

@@ -1,6 +1,7 @@
 class Payment < ApplicationRecord
   belongs_to :waiter
   belongs_to :shift
+  validates :waiter_id, :uniqueness => { :scope => :shift_id, message: "Дубликат" }
   delegate :gender, to: :waiter, prefix: false, allow_nil: true
 
   after_commit :set_costs, on: [:create, :update]

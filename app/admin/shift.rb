@@ -19,13 +19,6 @@ ActiveAdmin.register Shift do
     column 'Кол-во официантов' do |shift|
       shift.female_count+shift.male_count
     end
-    column 'Заполнена?' do |shift|
-      if shift.payments.where.not(waiter_id: nil).count == (shift.female_count+shift.male_count)
-        "Да"
-      else
-        'Нет'
-      end
-    end
     # actions dropdown: true, defaults: false do |shift|
     #   shift.waiters.order(:name).each do |s|
     #     item "#{s.name}", '#'
@@ -36,7 +29,7 @@ ActiveAdmin.register Shift do
     # end
     column 'Официанты' do |shift|
       div class: "name" do 
-        table_for shift.payments.with_waiters do
+        table_for shift.payments do
           column '' do |payment|
             if payment.waiter.gender == 'Мужской' && !payment.is_coordinator? && !payment.is_reserve?
               div :class => 'male' do
@@ -45,12 +38,14 @@ ActiveAdmin.register Shift do
                     text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
                     text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
                     text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
+                    text = "Pезерв #{payment.waiter.name} в смене" if payment.is_reserve && payment.active
                     text
                   end
                 else
                  text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
                     text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
                     text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
+                    text = "Pезерв #{payment.waiter.name} в смене" if payment.is_reserve && payment.active
                     text
                 end
               end
@@ -60,12 +55,14 @@ ActiveAdmin.register Shift do
                  text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
                     text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
                     text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
+                    text = "Pезерв #{payment.waiter.name} в смене" if payment.is_reserve && payment.active
                     text
                 end
               else
                 text = "#{shift.payments.index(payment)+1}. #{payment.waiter.name}"
                     text = "Kоорд. #{payment.waiter.name}" if payment.is_coordinator
                     text = "Pезерв #{payment.waiter.name}" if payment.is_reserve
+                    text = "Pезерв #{payment.waiter.name} в смене" if payment.is_reserve && payment.active
                     text
               end
             end
@@ -73,7 +70,9 @@ ActiveAdmin.register Shift do
           column '' do |payment|
             
             shift_datetime = (shift.date.to_s + " " + shift.finish_time.strftime('%H:%M')).to_datetime
-            if shift_datetime < Time.now && !payment.paid?
+            if payment.is_reserve && !payment.active
+              link_to('Добавить в смену', activate_admin_shift_path(payment.shift, payment_id: payment.id))
+            elsif shift_datetime < Time.now && !payment.paid?
               link_to('Расчитать',  paid_admin_waiter_path(payment.waiter, finish_date: payment.shift.date))
             end
           end
@@ -82,8 +81,7 @@ ActiveAdmin.register Shift do
     end
     actions dropdown: true, defaults: false do |shift|
       item "Просмотреть", admin_shift_path(shift)
-      item "Изменить данные по официантам", edit_admin_shift_path(shift)
-      item "Изменить основную информацию", fix_main_info_admin_shift_path(shift)
+      item "Изменить", edit_admin_shift_path(shift)
       item "Добавить координатора", coordinator_form_admin_shift_path(shift)
       item "Добавить резервного официанта", reserve_form_admin_shift_path(shift)
     end
@@ -191,10 +189,6 @@ ActiveAdmin.register Shift do
     render '_form_new', layout: 'active_admin'
   end
 
-  action_item :fix_main_info, only: :show do
-    link_to('Изменить основную информацию', fix_main_info_admin_shift_path(shift))
-  end
-
   member_action :duplicate do
     shift = Shift.find(params[:id])
     new_shift = shift.dup
@@ -229,6 +223,12 @@ ActiveAdmin.register Shift do
     @waiters = Waiter.all.to_a - shift.waiters.to_a
     @waiters = @waiters.map{|waiter| ["#{waiter.name}", waiter.id]}
     render "admin/shifts/_form_coordinator"
+  end
+
+  member_action :activate do
+    payment = Payment.find(payment_id)
+    payment.update(actice: true)
+    redirect_to admin_shifts_path
   end
 
   member_action :coordinator, method: :post do

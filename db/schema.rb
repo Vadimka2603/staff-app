@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170507134514) do
+ActiveRecord::Schema.define(version: 20170513114457) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,6 +49,16 @@ ActiveRecord::Schema.define(version: 20170507134514) do
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true, using: :btree
   end
 
+  create_table "coordinator_payments", force: :cascade do |t|
+    t.integer  "waiter_id"
+    t.integer  "shift_id"
+    t.float    "client_rate"
+    t.float    "self_rate"
+    t.boolean  "paid",        default: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
   create_table "managers", force: :cascade do |t|
     t.string   "name"
     t.string   "email"
@@ -69,6 +79,18 @@ ActiveRecord::Schema.define(version: 20170507134514) do
     t.boolean  "is_reserve",     default: false
     t.integer  "cost"
     t.boolean  "paid",           default: false
+    t.boolean  "active",         default: false
+  end
+
+  create_table "reserve_payments", force: :cascade do |t|
+    t.integer  "waiter_id"
+    t.integer  "shift_id"
+    t.boolean  "active",      default: false
+    t.float    "client_rate"
+    t.float    "self_rate"
+    t.boolean  "paid",        default: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
   end
 
   create_table "shifts", force: :cascade do |t|

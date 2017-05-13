@@ -3,7 +3,7 @@
 <% elsif controller.action_name == 'new' %>
   <%= render partial: "form_new", resource: @catalog_organization %>
 <% elsif request.post? %>
-  <%= render partial: "form_new", resource: @catalog_organization %>
+  <%= render partial: "form_edit", resource: @catalog_organization %>
 <% else %>
   <%= render partial: "form_edit", resource: @catalog_organization %>
 <% end %>
