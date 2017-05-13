@@ -100,7 +100,7 @@ ActiveAdmin.register Waiter do
     end
     @reserve = 0
     @shifts.each do |s|
-      @reserve += s.payments.where(waiter_id: @waiter.id, is_reserve: true).count
+      @reserve += s.payments.where(waiter_id: @waiter.id, is_reserve: true, active: true).count
     end
     @waste = 0
     @limit_sum = 0
@@ -153,7 +153,7 @@ ActiveAdmin.register Waiter do
     end
     @reserve = 0
     @shifts.each do |s|
-      @reserve += s.payments.where(waiter_id: @waiter.id, is_reserve: true).count
+      @reserve += s.payments.where(waiter_id: @waiter.id, is_reserve: true, active: true).count
     end
     @waste = 0
     @limit_sum = 0

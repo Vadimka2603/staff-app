@@ -67,7 +67,13 @@ class Payment < ApplicationRecord
 	  end
 
 	  if is_reserve?
-	  	update_column(:self_rate, ((self_rate/shift.hours_count+20)*shift.hours_count))
+	  	if active?
+	  	  update_column(:self_rate, ((self_rate/shift.hours_count+20)*shift.hours_count))
+	  	else
+	  	  update_column(:self_rate, 0*shift.hours_count)
+  		  update_column(:client_rate, 0*shift.hours_count)
+  		  update_column(:cost, 0)
+  		end
 	  end
 	end
 end
