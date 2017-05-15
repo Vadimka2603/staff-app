@@ -45,7 +45,7 @@
           Нет
       %td#peroid_table_td
         -if p.is_main
-          Главный официант
+          Старший официант
         -elsif p.is_reserve
           Резерв
         -elsif p.is_coordinator
@@ -55,7 +55,7 @@
   Часов отработано
   %strong.workers#period #{@hours_count}
 %h4
-  Смен как "Главный официант"
+  Смен как "Старший официант"
   %strong.workers#period #{@main}
 %h4
   Смен как "Координатор"
@@ -71,4 +71,4 @@
   %strong.workers#period #{@limited_waste}
 
 %h3
-  =link_to 'Расчитать', upload_payent_admin_waiter_path(@waiter, date: @finish_date, limited_waste: @limited_waste)
+  =link_to 'Расчитать', upload_payent_admin_waiter_path(@waiter, date: @finish_date, limited_waste: @limited_waste), :data => {:confirm => 'Вы уверены?'}

@@ -28,45 +28,49 @@ ActiveAdmin.register Shift do
     #   shift.waiters.map{|w| w.name}.join('/n ')
     # end
     column 'Официанты' do |shift|
-      div class: "name" do 
-        table_for shift.payments do
+      div class: "name" do
+        div class: "table_header" do 
+          'Показать список'
+        end 
+        table_for shift.payments, class: 'content' do
           column '' do |payment|
             if payment.waiter.try(:gender) == 'Мужской' && !payment.is_coordinator? && !payment.is_reserve?
               div :class => 'male' do
                 if payment.paid?
                   div :class => 'green' do 
-                    text = "#{shift.payments.index(payment)+1}. #{payment.waiter.try(:name)}"
-                    text = "Kоорд. #{payment.waiter.try(:name)}" if payment.is_coordinator
-                    text = "Pезерв #{payment.waiter.try(:name)}" if payment.is_reserve
-                    text = "Pезерв #{payment.waiter.try(:name)} в смене" if payment.is_reserve && payment.active
+                    text = "#{shift.payments.index(payment)+1}. #{link_to payment.waiter.try(:name), admin_waiter_path(payment.waiter.try(:id) || 0)}".html_safe
+                    text = "Kоорд. #{link_to payment.waiter.try(:name) || '', admin_waiter_path(payment.waiter.try(:id) || 0)}".html_safe if payment.is_coordinator
+                    text = "Pезерв #{link_to payment.waiter.try(:name) || '', admin_waiter_path(payment.waiter.try(:id) || 0)}".html_safe if payment.is_reserve
+                    text = "Pезерв #{link_to payment.waiter.try(:name) || '', admin_waiter_path(payment.waiter.try(:id) || 0)} .в смене".html_safe if payment.is_reserve && payment.active
                     text
                   end
                 else
-                 text = "#{shift.payments.index(payment)+1}. #{payment.waiter.try(:name)}"
-                    text = "Kоорд. #{payment.waiter.try(:name)}" if payment.is_coordinator
-                    text = "Pезерв #{payment.waiter.try(:name)}" if payment.is_reserve
-                    text = "Pезерв #{payment.waiter.try(:name)} в смене" if payment.is_reserve && payment.active
+                 text = "#{shift.payments.index(payment)+1}. #{link_to payment.waiter.try(:name) || '', admin_waiter_path(payment.waiter.try(:id) || 0)}".html_safe
+                    text = "Kоорд. #{link_to payment.waiter.try(:name) || '', admin_waiter_path(payment.waiter.try(:id) || 0)}".html_safe if payment.is_coordinator
+                    text = "Pезерв #{link_to payment.waiter.try(:name) || '', admin_waiter_path(payment.waiter.try(:id) || 0)}".html_safe if payment.is_reserve
+                    text = "Pезерв #{link_to payment.waiter.try(:name) || '', admin_waiter_path(payment.waiter.try(:id) || 0)} .в смене".html_safe if payment.is_reserve && payment.active
                     text
                 end
               end
             else
               if payment.paid?
                 div :class => 'green' do 
-                 text = "#{shift.payments.index(payment)+1}. #{payment.waiter.try(:name)}"
-                    text = "Kоорд. #{payment.waiter.try(:name)}" if payment.is_coordinator
-                    text = "Pезерв #{payment.waiter.try(:name)}" if payment.is_reserve
-                    text = "Pезерв #{payment.waiter.try(:name)} в смене" if payment.is_reserve && payment.active
+                 text = "#{shift.payments.index(payment)+1}. #{link_to payment.waiter.try(:name) || '', admin_waiter_path(payment.waiter.try(:id) || 0)}".html_safe
+                    text = "Kоорд. #{link_to payment.waiter.try(:name) || '', admin_waiter_path(payment.waiter.try(:id) || 0)}".html_safe if payment.is_coordinator
+                    text = "Pезерв #{link_to payment.waiter.try(:name) || '', admin_waiter_path(payment.waiter.try(:id) || 0)}".html_safe if payment.is_reserve
+                    text = "Pезерв #{link_to payment.waiter.try(:name) || '', admin_waiter_path(payment.waiter.try(:id) || 0)} .в смене".html_safe if payment.is_reserve && payment.active
                     text
                 end
               else
-                text = "#{shift.payments.index(payment)+1}. #{payment.waiter.try(:name)}"
-                    text = "Kоорд. #{payment.waiter.try(:name)}" if payment.is_coordinator
-                    text = "Pезерв #{payment.waiter.try(:name)}" if payment.is_reserve
-                    text = "Pезерв #{payment.waiter.try(:name)} в смене" if payment.is_reserve && payment.active
+                    text = "#{shift.payments.index(payment)+1}. #{link_to payment.waiter.try(:name) || '', admin_waiter_path(payment.waiter.try(:id) || 0)}".html_safe
+                    text = "Kоорд. #{link_to payment.waiter.try(:name) || '', admin_waiter_path(payment.waiter.try(:id) || 0)}".html_safe if payment.is_coordinator
+                    text = "Pезерв #{link_to payment.waiter.try(:name) || '', admin_waiter_path(payment.waiter.try(:id) || 0)}".html_safe if payment.is_reserve
+                    text = "Pезерв #{link_to payment.waiter.try(:name) || '', admin_waiter_path(payment.waiter.try(:id) || 0)} .в смене".html_safe if payment.is_reserve && payment.active
                     text
               end
             end
           end
+
           column '' do |payment|
             
             shift_datetime = (shift.date.to_s + " " + shift.finish_time.strftime('%H:%M')).to_datetime
@@ -151,6 +155,11 @@ ActiveAdmin.register Shift do
   controller do
     def permitted_params
       params.permit!
+    end
+
+    def update
+      super
+      redirect_to collection_path
     end
   end
 

@@ -35,3 +35,18 @@ div.male { background: #e6e9ee !important; }
 div.name th.col {display: none}
 #index_table_shifts tr.even td { background: white !important; }
 #_sidebar_section {display: none}
+
+div.table_header {
+    background-color:#d3d3d3;
+    padding: 2px;
+    cursor: pointer;
+    font-weight: bold;
+}
+.content {
+    display: none;
+    padding : 5px;
+}
+
+.show_content {
+    display: flex;
+}
