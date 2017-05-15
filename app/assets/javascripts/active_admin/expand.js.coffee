@@ -1,8 +1,8 @@
 jQuery(document).ready ($) ->
   $('.table_header').on 'click', ->
-  	if $('.content').is(':visible')
-      $('.table_header').text('Показать список')
-      $('.content').removeClass('show_content')
+  	if $('.content').hasClass('show_content')
+      $(this).text('Показать список')
+      $(this).next('.content').removeClass('show_content')
     else
-      $('.table_header').text('Убрать список')
-      $('.content').addClass('show_content')
+      $(this).text('Убрать список')
+      $(this).next('.content').addClass('show_content')
