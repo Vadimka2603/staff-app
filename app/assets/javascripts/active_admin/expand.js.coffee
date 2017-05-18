@@ -1,6 +1,6 @@
 jQuery(document).ready ($) ->
   $('.table_header').on 'click', ->
-  	if $('.content').hasClass('show_content')
+  	if $(this).next('.content').hasClass('show_content')
       $(this).text('Показать список')
       $(this).next('.content').removeClass('show_content')
     else
